@@ -1,42 +1,63 @@
 <template>
-  <div>
-    <div class="progress rounded-xl">
-      <div class="progress__bar-wrapper rounded-xl"></div>
-      <div
-        :class="[
-          'progress__bar-lineup rounded-l-xl transition-all ',
-          presenrage === 100 ? 'rounded-r-xl' : '',
-        ]"
-        :style="{ width: `${presenrage}%` }"
-      ></div>
+  <div class="main">
+    <PercentageBar :percentage="percentage" />
+    <div class="items">
+      <div class="item" @click="goToTask('html')">
+        <span class="item__text">HTML</span>
+      </div>
+      <div class="item" @click="goToTask('css')">
+        <span class="item__text">CSS</span>
+      </div>
+      <div class="item" @click="goToTask('javascript')">
+        <span class="item__text">JavaScript</span>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, type Ref } from "vue";
-const presenrage: Ref<number> = ref(0);
+import { useRouter } from "vue-router";
+import PercentageBar from "@/components/HomePage/PercentageBar.vue";
+
+const percentage: Ref<number> = ref(10);
+const router = useRouter();
+
+const goToTask = (taskId: string) => {
+  router.push(`/task/${taskId}`);
+};
 </script>
 
 <style lang="scss" scoped>
-.progress {
-  position: relative;
-  width: 100%;
-  height: 60px;
+.main {
+  padding: 20px;
+}
+
+.items {
   margin-top: 20px;
-  border: 1px solid black;
-  &__bar-wrapper {
-    width: 100%;
-    height: 100%;
-    background: rgb(238, 235, 235);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.item {
+  padding: 16px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    transform: translateX(4px);
+    background: #f5f5f5;
   }
-  &__bar-lineup {
-    position: absolute;
-    height: 100%;
-    z-index: 10;
-    top: 0;
-    width: 10%;
-    background: rgb(0, 209, 0);
+
+  &__text {
+    font-size: 16px;
+    font-weight: 500;
+    color: #333;
   }
 }
 </style>
+
