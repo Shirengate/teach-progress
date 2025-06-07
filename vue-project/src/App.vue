@@ -1,11 +1,14 @@
 <template>
-  <div>
-    <RouterView />
+  <div class="h-screen w-full flex flex-col">
+    <Header />
+    <div class="flex-1 max-w-[1200px] p-2 w-4/5 mx-auto border">
+      <RouterView />
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { RouterLink } from "vue-router";
+import Header from "@/components/Layout/Header.vue";
 </script>
 
-<style lang="scss" scoped>
-</style>

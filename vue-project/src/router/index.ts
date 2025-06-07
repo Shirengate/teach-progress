@@ -3,13 +3,12 @@ import {
   createWebHistory,
   type RouteRecordRaw,
 } from "vue-router";
-import HomePage from "@/components/HomePage/index.vue";
-
+import HomePageVue from "@/views/HomePage.vue";
 const routes: Array<RouteRecordRaw> = [
   {
     path: "/",
     name: "home-page",
-    component: HomePage,
+    component: HomePageVue,
   },
 ];
 const router = createRouter({
