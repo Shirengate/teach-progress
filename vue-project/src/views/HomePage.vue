@@ -1,10 +1,11 @@
 <template>
   <div>
-    <RouterView />
+    <HomePage />
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
+import HomePage from "@/components/HomePage";
 </script>
 
 <style lang="scss" scoped>
