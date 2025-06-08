@@ -2,11 +2,20 @@
   <div class="main">
     <PercentageBar :percentage="percentage" />
     <div class="items">
-      <template v-for="item in items" :key="item.id">
-        <div class="item" @click="goToTask(item.id)">
-          <span class="item__text">{{ item.name }}</span>
-        </div>
-      </template>
+      <div class="items__title text-2xl font-bold">Все задачи</div>
+      <div class="items__content grid grid-cols-3 gap-4">
+        <template v-for="item in items" :key="item.id">
+          <div
+            class="item relative min-h-[100px] flex items-center justify-center"
+            @click="goToTask(item.id)"
+          >
+            <span class="item__text">{{ item.name }}</span>
+            <div @click.stop="" class="complete absolute bottom-5 right-0">
+              <Checkbox />
+            </div>
+          </div>
+        </template>
+      </div>
     </div>
   </div>
 </template>
@@ -15,6 +24,7 @@
 import { ref, type Ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import PercentageBar from "@/components/HomePage/PercentageBar.vue";
+import Checkbox from "@/components/HomePage/UI/Checkbox.vue";
 import { type Item, type ItemsResponse } from "@/types/responses";
 const percentage: Ref<number> = ref(10);
 const router = useRouter();
