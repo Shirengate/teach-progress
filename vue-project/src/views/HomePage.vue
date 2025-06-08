@@ -2,30 +2,40 @@
   <div class="main">
     <PercentageBar :percentage="percentage" />
     <div class="items">
-      <div class="item" @click="goToTask('html')">
-        <span class="item__text">HTML</span>
-      </div>
-      <div class="item" @click="goToTask('css')">
-        <span class="item__text">CSS</span>
-      </div>
-      <div class="item" @click="goToTask('javascript')">
-        <span class="item__text">JavaScript</span>
-      </div>
+      <template v-for="item in items" :key="item.id">
+        <div class="item" @click="goToTask(item.id)">
+          <span class="item__text">{{ item.name }}</span>
+        </div>
+      </template>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, type Ref } from "vue";
+import { ref, type Ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import PercentageBar from "@/components/HomePage/PercentageBar.vue";
-
+import { type Item, type ItemsResponse } from "@/types/responses";
 const percentage: Ref<number> = ref(10);
 const router = useRouter();
 
-const goToTask = (taskId: string) => {
+const items: Ref<Item[]> = ref([]);
+
+const goToTask = (taskId: number) => {
   router.push(`/task/${taskId}`);
 };
+
+onMounted(async () => {
+  try {
+    const response = await fetch("https://e72b706bba1ca1f0.mokky.dev/items");
+    const data: ItemsResponse = await response.json();
+    items.value = data;
+    return data;
+  } catch (e: unknown) {
+    console.log(e);
+    return e;
+  }
+});
 </script>
 
 <style lang="scss" scoped>

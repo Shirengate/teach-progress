@@ -10,6 +10,11 @@ const routes: Array<RouteRecordRaw> = [
     name: "home-page",
     component: HomePageVue,
   },
+  {
+    path:"/task/:id",
+    name:"task-detail",
+    component: () => import("@/views/TaskDetail.vue"),
+  }
 ];
 const router = createRouter({
   history: createWebHistory(),
