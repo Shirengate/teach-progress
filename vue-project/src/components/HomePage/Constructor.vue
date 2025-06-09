@@ -1,6 +1,6 @@
 <template>
   <div
-    class="mt-5 constructor bg-white p-6 rounded-lg shadow-lg w-96"
+    class="mt-5 constructor bg-white p-6 rounded-lg shadow-lg w-full"
     ref="constructor"
   >
     <div class="flex flex-col gap-4">
