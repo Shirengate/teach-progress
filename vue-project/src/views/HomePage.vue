@@ -1,6 +1,6 @@
 <template>
   <div class="main">
-    <PercentageBar :percentage="percentage" />
+    <div><PercentageBar :percentage="percentage" /></div>
     <Items />
     <div class="constructor-wrapper">
       <Constructor @addItem="getItems" />
@@ -10,24 +10,16 @@
 
 <script setup lang="ts">
 import { onMounted, computed } from "vue";
-import { useRouter } from "vue-router";
 import { useStateStore } from "@/stores/state";
 import { useFetchData } from "@/stores/fetchData";
 import PercentageBar from "@/components/HomePage/PercentageBar.vue";
 import Items from "@/components/HomePage/Items/index.vue";
 import Constructor from "@/components/HomePage/Constructor.vue";
-import { type Item, type ItemsResponse } from "@/types/responses";
 import { storeToRefs } from "pinia";
-
-const percentage = computed<number>(() => {
-  const complitedTasks: Item[] = items.value.filter((items) => items.complite);
-  return Math.round((complitedTasks.length / items.value.length) * 100);
-});
 
 const store = useStateStore();
 const { getData } = useFetchData();
-const { items } = storeToRefs(store);
-
+const { items, percentage } = storeToRefs(store);
 async function getItems(): Promise<void> {
   try {
     const data = await getData();
