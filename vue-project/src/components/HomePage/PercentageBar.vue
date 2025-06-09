@@ -8,14 +8,15 @@
           'progress__bar-lineup rounded-l-xl transition-all ',
           percentage === 100 ? 'rounded-r-xl' : '',
         ]"
-        :style="{ width: `${percentage}%` }"
+        :style="{ width: `${percentage}%`, background: color }"
       ></div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-withDefaults(
+import { computed } from "vue";
+const props = withDefaults(
   defineProps<{
     percentage: number;
   }>(),
@@ -23,6 +24,18 @@ withDefaults(
     percentage: 0,
   }
 );
+const color = computed<string>((): string => {
+  if (props.percentage === 100) {
+    return "#04a96d";
+  }
+  if (props.percentage > 75) {
+    return "##0afa9e";
+  }
+  if (props.percentage > 50) {
+    return "yellow";
+  }
+  return "#ff3531";
+});
 </script>
 
 <style  lang="scss" scoped>
@@ -45,7 +58,6 @@ withDefaults(
     z-index: 10;
     top: 0;
     width: 10%;
-    background: rgb(0, 209, 0);
   }
 }
 </style>

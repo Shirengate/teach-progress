@@ -46,6 +46,10 @@ const item = reactive<Pick<Item, "name" | "description">>({
 });
 
 async function addItem(): Promise<void> {
+  if (!item.name || !item.description) {
+    alert("Заполните все поля");
+    return;
+  }
   const payload = {
     name: item.name,
     description: item.description,
