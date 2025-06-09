@@ -3,7 +3,7 @@
     <PercentageBar :percentage="percentage" />
     <Items />
     <div class="constructor-wrapper">
-      <Constructor @addItem="getItems" />
+      <Constructor @addItem="getData" />
     </div>
   </div>
 </template>
@@ -12,6 +12,7 @@
 import { onMounted, computed } from "vue";
 import { useRouter } from "vue-router";
 import { useStateStore } from "@/stores/state";
+import { useFetchData } from "@/stores/fetchData";
 import PercentageBar from "@/components/HomePage/PercentageBar.vue";
 import Items from "@/components/HomePage/Items/index.vue";
 import Constructor from "@/components/HomePage/Constructor.vue";
@@ -24,20 +25,15 @@ const percentage = computed<number>(() => {
 });
 
 const store = useStateStore();
+const { getData } = useFetchData();
 const { items } = storeToRefs(store);
-
-async function getItems(): Promise<void> {
+onMounted(async () => {
   try {
-    const response = await fetch("https://e72b706bba1ca1f0.mokky.dev/items");
-    const data: ItemsResponse = await response.json();
+    const data = await getData();
     items.value = data;
-  } catch (e: unknown) {
+  } catch (e) {
     console.log(e);
   }
-}
-
-onMounted(async () => {
-  await getItems();
 });
 </script>
 

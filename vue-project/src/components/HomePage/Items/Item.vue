@@ -21,34 +21,25 @@
 import { type Item } from "@/types/responses";
 import { type UpdateStatus } from "@/types/emits";
 import { useStateStore } from "@/stores/state";
+import { useFetchData } from "@/stores/fetchData";
 import { storeToRefs } from "pinia";
 import { useRouter } from "vue-router";
 import Checkbox from "@/components/HomePage/UI/Checkbox.vue";
-const props = defineProps<{
+defineProps<{
   item: Item;
 }>();
 const router = useRouter();
 const store = useStateStore();
+const fetchData = useFetchData();
+const { patchData } = fetchData;
 const { items } = storeToRefs(store);
 const goToTask = (taskId: number) => {
   router.push(`/task/${taskId}`);
 };
 async function updateStatus(payload: UpdateStatus): Promise<void> {
-  const { id, complite } = payload;
+  const { id } = payload;
   try {
-    const response = await fetch(
-      `https://e72b706bba1ca1f0.mokky.dev/items/${id}`,
-      {
-        method: "PATCH",
-        body: JSON.stringify({
-          complite,
-        }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
-    const data: Item = await response.json();
+    const data = await patchData(payload);
     items.value = items.value.map((item: Item) => {
       if (item.id === id) {
         return { ...data };
@@ -56,7 +47,7 @@ async function updateStatus(payload: UpdateStatus): Promise<void> {
       return item;
     });
   } catch (e: unknown) {
-    console.log(e);
+    console.error(e as string);
   }
 }
 </script>

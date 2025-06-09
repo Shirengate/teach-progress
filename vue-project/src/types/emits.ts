@@ -1,4 +1,4 @@
 export interface UpdateStatus {
-    id: number;
-    complite: boolean;
+  id: number;
+  complite: boolean;
 }
