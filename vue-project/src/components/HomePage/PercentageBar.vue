@@ -32,7 +32,7 @@ const color = computed<string>((): string => {
     return "#0afa9e";
   }
   if (props.percentage > 50) {
-    return "#yellow";
+    return "yellow";
   }
   return "#ff3531";
 });
