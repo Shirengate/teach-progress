@@ -1,21 +1,9 @@
 <template>
   <div class="main">
     <PercentageBar :percentage="percentage" />
-    <div class="items">
-      <div class="items__title text-2xl font-bold">Все задачи</div>
-      <div class="items__content grid grid-cols-3 gap-4">
-        <template v-for="item in items" :key="item.id">
-          <div
-            class="item relative min-h-[100px] flex items-center justify-center"
-            @click="goToTask(item.id)"
-          >
-            <span class="item__text">{{ item.name }}</span>
-            <div @click.stop="" class="complete absolute bottom-5 right-0">
-              <Checkbox :complite="item.complite" />
-            </div>
-          </div>
-        </template>
-      </div>
+    <Items />
+    <div class="constructor-wrapper">
+      <Constructor @addItem="getItems" />
     </div>
   </div>
 </template>
@@ -25,7 +13,8 @@ import { onMounted, computed } from "vue";
 import { useRouter } from "vue-router";
 import { useStateStore } from "@/stores/state";
 import PercentageBar from "@/components/HomePage/PercentageBar.vue";
-import Checkbox from "@/components/HomePage/UI/Checkbox.vue";
+import Items from "@/components/HomePage/Items/index.vue";
+import Constructor from "@/components/HomePage/Constructor.vue";
 import { type Item, type ItemsResponse } from "@/types/responses";
 import { storeToRefs } from "pinia";
 
@@ -33,56 +22,28 @@ const percentage = computed<number>(() => {
   const complitedTasks: Item[] = items.value.filter((items) => items.complite);
   return Math.round((complitedTasks.length / items.value.length) * 100);
 });
-const router = useRouter();
+
 const store = useStateStore();
 const { items } = storeToRefs(store);
-const goToTask = (taskId: number) => {
-  router.push(`/task/${taskId}`);
-};
 
-onMounted(async () => {
+async function getItems(): Promise<void> {
   try {
     const response = await fetch("https://e72b706bba1ca1f0.mokky.dev/items");
     const data: ItemsResponse = await response.json();
     items.value = data;
-    return data;
   } catch (e: unknown) {
     console.log(e);
-    return e;
   }
+}
+
+onMounted(async () => {
+  await getItems();
 });
 </script>
 
 <style lang="scss" scoped>
 .main {
   padding: 20px;
-}
-
-.items {
-  margin-top: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.item {
-  padding: 16px;
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  cursor: pointer;
-  transition: all 0.2s ease;
-
-  &:hover {
-    transform: translateX(4px);
-    background: #f5f5f5;
-  }
-
-  &__text {
-    font-size: 16px;
-    font-weight: 500;
-    color: #333;
-  }
 }
 </style>
 

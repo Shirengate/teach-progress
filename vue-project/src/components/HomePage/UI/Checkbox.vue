@@ -1,15 +1,32 @@
 <template>
   <!-- From Uiverse.io by DaniloMGutavo -->
   <label class="checkbox-container">
-    <input class="custom-checkbox" :checked="complite" type="checkbox" />
+    <input
+      class="custom-checkbox"
+      @change="updateStatus"
+      :checked="complite"
+      type="checkbox"
+    />
     <span class="checkmark"></span>
   </label>
 </template>
 
 <script setup lang="ts">
+import { type UpdateStatus } from "@/types/emits";
+const emit = defineEmits<{
+  (e: "updateStatus", payload: UpdateStatus): void;
+}>();
 const props = defineProps<{
   complite: boolean;
+  id: number;
 }>();
+
+function updateStatus() {
+  emit("updateStatus", {
+    id: props.id,
+    complite: !props.complite,
+  });
+}
 </script>
 
 <style lang="scss" scoped>
