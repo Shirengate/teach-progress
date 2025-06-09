@@ -11,7 +11,7 @@
           >
             <span class="item__text">{{ item.name }}</span>
             <div @click.stop="" class="complete absolute bottom-5 right-0">
-              <Checkbox />
+              <Checkbox :complite="item.complite" />
             </div>
           </div>
         </template>
@@ -21,16 +21,21 @@
 </template>
 
 <script setup lang="ts">
-import { ref, type Ref, onMounted } from "vue";
+import { onMounted, computed } from "vue";
 import { useRouter } from "vue-router";
+import { useStateStore } from "@/stores/state";
 import PercentageBar from "@/components/HomePage/PercentageBar.vue";
 import Checkbox from "@/components/HomePage/UI/Checkbox.vue";
 import { type Item, type ItemsResponse } from "@/types/responses";
-const percentage: Ref<number> = ref(10);
+import { storeToRefs } from "pinia";
+
+const percentage = computed<number>(() => {
+  const complitedTasks: Item[] = items.value.filter((items) => items.complite);
+  return Math.round((complitedTasks.length / items.value.length) * 100);
+});
 const router = useRouter();
-
-const items: Ref<Item[]> = ref([]);
-
+const store = useStateStore();
+const { items } = storeToRefs(store);
 const goToTask = (taskId: number) => {
   router.push(`/task/${taskId}`);
 };

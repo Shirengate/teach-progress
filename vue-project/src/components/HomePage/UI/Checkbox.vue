@@ -1,12 +1,15 @@
 <template>
   <!-- From Uiverse.io by DaniloMGutavo -->
   <label class="checkbox-container">
-    <input class="custom-checkbox" checked="" type="checkbox" />
+    <input class="custom-checkbox" :checked="complite" type="checkbox" />
     <span class="checkmark"></span>
   </label>
 </template>
 
-<script setup>
+<script setup lang="ts">
+const props = defineProps<{
+  complite: boolean;
+}>();
 </script>
 
 <style lang="scss" scoped>
