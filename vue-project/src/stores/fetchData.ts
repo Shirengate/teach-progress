@@ -12,6 +12,7 @@ export const useFetchData = defineStore("fetchData", () => {
     }
 
     const data = await response.json();
+
     return data;
   }
 

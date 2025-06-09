@@ -3,7 +3,7 @@
     <PercentageBar :percentage="percentage" />
     <Items />
     <div class="constructor-wrapper">
-      <Constructor @addItem="getData" />
+      <Constructor @addItem="getItems" />
     </div>
   </div>
 </template>
@@ -27,13 +27,17 @@ const percentage = computed<number>(() => {
 const store = useStateStore();
 const { getData } = useFetchData();
 const { items } = storeToRefs(store);
-onMounted(async () => {
+
+async function getItems(): Promise<void> {
   try {
     const data = await getData();
     items.value = data;
-  } catch (e) {
-    console.log(e);
+  } catch (e: unknown) {
+    console.error(e as string);
   }
+}
+onMounted(async () => {
+  await getItems();
 });
 </script>
 

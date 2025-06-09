@@ -49,6 +49,7 @@ async function addItem(): Promise<void> {
   const payload = {
     name: item.name,
     description: item.description,
+    complite: false,
   };
   try {
     await fetch("https://e72b706bba1ca1f0.mokky.dev/items", {
