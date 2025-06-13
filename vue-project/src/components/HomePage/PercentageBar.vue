@@ -28,10 +28,10 @@ const color = computed<string>((): string => {
   if (props.percentage === 100) {
     return "#04a96d";
   }
-  if (props.percentage > 75) {
+  if (props.percentage >= 75) {
     return "#0afa9e";
   }
-  if (props.percentage > 50) {
+  if (props.percentage >= 50) {
     return "yellow";
   }
   return "#ff3531";
