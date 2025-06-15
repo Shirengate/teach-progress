@@ -17,9 +17,8 @@
   </div>
 </template>
 
-<script setup lang='ts'>
-import { type Item } from "@/types/responses";
-import { type UpdateStatus } from "@/types/emits";
+<script setup lang="ts">
+import { type Item, type UpdateStatus } from "@/types";
 import { useStateStore } from "@/stores/state";
 import { useFetchData } from "@/stores/fetchData";
 import { storeToRefs } from "pinia";
