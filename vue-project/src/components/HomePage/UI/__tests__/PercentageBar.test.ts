@@ -1,7 +1,6 @@
 import { DOMWrapper, mount, VueWrapper } from "@vue/test-utils";
 import { describe, it, expect, beforeEach } from "vitest";
 import PercentageBar from "@/components/HomePage/PercentageBar.vue";
-import { createTestingPinia } from "@pinia/testing";
 
 describe('Проверка компонента статус бара', async () => {
     let wrapper: VueWrapper<InstanceType<typeof PercentageBar>>;

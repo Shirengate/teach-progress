@@ -11,7 +11,7 @@ export const useFetchData = defineStore("fetchData", () => {
       throw new Error(`Request failed with status ${response.status}`);
     }
 
-    const data = await response.json();
+    const data:ItemsResponse = await response.json();
 
     return data;
   }
