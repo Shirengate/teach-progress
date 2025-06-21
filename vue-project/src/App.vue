@@ -7,8 +7,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
-import { RouterLink } from "vue-router";
+<script setup>
 import Header from "@/components/Layout/Header.vue";
 </script>
 

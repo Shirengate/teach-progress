@@ -18,7 +18,7 @@
 </template>
 
 <script setup lang='ts'>
-import { type Item, type UpdateStatus } from "@/types";
+import type { Item, UpdateStatus } from "@/types/index";
 import { useStateStore } from "@/stores/state";
 import { useFetchData } from "@/stores/fetchData";
 import { storeToRefs } from "pinia";

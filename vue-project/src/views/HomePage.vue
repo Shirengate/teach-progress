@@ -9,7 +9,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, computed } from "vue";
+import { onMounted } from "vue";
 import { useStateStore } from "@/stores/state";
 import { useFetchData } from "@/stores/fetchData";
 import PercentageBar from "@/components/HomePage/PercentageBar.vue";

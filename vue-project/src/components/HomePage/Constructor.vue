@@ -69,7 +69,7 @@ async function addItem(): Promise<void> {
     console.log(e);
   }
 }
-const constructor = ref<HTMLElement | null>(null);
+const constructor = ref<any>(null);
 onMounted(() => {
   interact(constructor.value).resizable({
     edges: { left: true, right: true, bottom: true, top: true },
