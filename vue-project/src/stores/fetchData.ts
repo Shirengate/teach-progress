@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
-import { type Item, type ItemsResponse } from "@/types/responses";
-import { type UpdateStatus } from "@/types/emits";
+import type { Item, ItemsResponse } from "@/types/responses";
+import type { UpdateStatus } from "@/types/emits";
 export const useFetchData = defineStore("fetchData", () => {
   const url: string = "https://e72b706bba1ca1f0.mokky.dev";
 
@@ -11,7 +11,7 @@ export const useFetchData = defineStore("fetchData", () => {
       throw new Error(`Request failed with status ${response.status}`);
     }
 
-    const data:ItemsResponse = await response.json();
+    const data: ItemsResponse = await response.json();
 
     return data;
   }
