@@ -4,6 +4,7 @@
       'item relative min-h-[100px] flex items-center justify-center',
       item.complite ? 'complite' : '',
     ]"
+    :style="{ backgroundImage: `url(${item.imageUrl})` }"
     @click="goToTask(item.id)"
   >
     <span class="item__text">{{ item.name }}</span>
@@ -58,6 +59,9 @@ async function updateStatus(payload: UpdateStatus): Promise<void> {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   cursor: pointer;
   transition: all 0.2s linear;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
   &:hover {
     transform: translateY(-4px);
   }
