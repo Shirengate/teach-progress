@@ -9,12 +9,21 @@
 
 <script setup lang="ts">
 import Header from "@/components/Layout/Header.vue";
-import { watch } from "vue";
-import { useNetwork } from "@vueuse/core";
+import { watch, ref } from "vue";
+import { useIntervalFn, type Pausable } from "@vueuse/core";
 import { useToast } from "vue-toast-notification";
 const toast = useToast();
-const { isOnline } = useNetwork();
-
+const isOnline = ref(true);
+const {}: Pausable = useIntervalFn(async () => {
+  try {
+    await fetch("https://google.com", {
+      mode: "no-cors",
+    });
+    isOnline.value = true;
+  } catch (e) {
+    isOnline.value = false;
+  }
+}, 5000);
 watch(
   () => isOnline.value,
   (nw: boolean) => {
