@@ -42,7 +42,7 @@ async function fetchData(): Promise<void> {
 }
 onMounted(async () => {
   await getItems();
-  await fetchData();
+  // await fetchData();
 });
 </script>
 

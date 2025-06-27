@@ -30,6 +30,7 @@ import interact from "interactjs";
 import { reactive, onMounted, ref } from "vue";
 import { type Item } from "@/types/responses";
 
+type Payload = Omit<Item, "id">;
 function clearItem(): void {
   item.name = "";
   item.description = "";
@@ -45,29 +46,37 @@ const item = reactive<Pick<Item, "name" | "description">>({
   description: "",
 });
 
+function openXHR(payload: Payload): Promise<any> {
+  return new Promise((resolve, reject) => {
+    const xhr: XMLHttpRequest = new XMLHttpRequest();
+    xhr.upload.onprogress = (event) => {
+      console.log((event.loaded / event.total) * 100);
+    };
+    xhr.onload = function () {
+      resolve(xhr.response);
+    };
+    xhr.onerror = function () {
+      reject(xhr.statusText);
+    };
+    xhr.open("POST", "https://e72b706bba1ca1f0.mokky.dev/items");
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.send(JSON.stringify(payload));
+  });
+}
 async function addItem(): Promise<void> {
   if (!item.name || !item.description) {
     alert("Заполните все поля");
     return;
   }
-  const payload = {
+  const payload: Payload = {
     name: item.name,
     description: item.description,
     complite: false,
   };
-  try {
-    await fetch("https://e72b706bba1ca1f0.mokky.dev/items", {
-      method: "POST",
-      body: JSON.stringify(payload),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    emit("addItem");
-    clearItem();
-  } catch (e) {
-    console.log(e);
-  }
+
+  await openXHR(payload);
+  emit("addItem");
+  clearItem();
 }
 const constructor = ref<any>(null);
 onMounted(() => {
