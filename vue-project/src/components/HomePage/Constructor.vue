@@ -17,9 +17,15 @@
       ></textarea>
       <button
         @click="addItem"
-        class="bg-blue-500 text-white px-6 py-2 rounded-md hover:bg-blue-600 transition-colors"
+        class="bg-blue-500 text-white px-6 py-2 rounded-md hover:bg-blue-600 transition-colors flex justify-center items-center"
       >
-        Добавить
+        <span
+          v-if="loadStatus > 0"
+          class="loading-progress__bar"
+          :style="{ width: `${progressLoad}` }"
+          >{{ progressLoad }}</span
+        >
+        <span v-else>Добавить</span>
       </button>
     </div>
   </div>
@@ -27,10 +33,12 @@
 
 <script setup lang="ts">
 import interact from "interactjs";
-import { reactive, onMounted, ref } from "vue";
+import { reactive, onMounted, ref, computed } from "vue";
+import type { ComputedRef } from "vue";
 import { type Item } from "@/types/responses";
 
 type Payload = Omit<Item, "id">;
+
 function clearItem(): void {
   item.name = "";
   item.description = "";
@@ -45,21 +53,30 @@ const item = reactive<Pick<Item, "name" | "description">>({
   name: "",
   description: "",
 });
-
+const loadStatus = ref(0);
+const progressLoad: ComputedRef<string> = computed(
+  () => Math.floor(loadStatus.value) + "%"
+);
 function openXHR(payload: Payload): Promise<any> {
   return new Promise((resolve, reject) => {
     const xhr: XMLHttpRequest = new XMLHttpRequest();
+
     xhr.upload.onprogress = (event) => {
-      console.log((event.loaded / event.total) * 100);
+      loadStatus.value = (event.loaded / event.total) * 100;
     };
-    xhr.onload = function () {
-      resolve(xhr.response);
+    xhr.onload = function (): void {
+      if (xhr.status >= 200 && xhr.status <= 300) {
+        resolve(xhr.response);
+      } else {
+        reject(xhr.response);
+      }
     };
-    xhr.onerror = function () {
-      reject(xhr.statusText);
+    xhr.onerror = function (): void {
+      reject(xhr.response);
     };
     xhr.open("POST", "https://e72b706bba1ca1f0.mokky.dev/items");
     xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.responseType = "json";
     xhr.send(JSON.stringify(payload));
   });
 }
@@ -68,15 +85,21 @@ async function addItem(): Promise<void> {
     alert("Заполните все поля");
     return;
   }
+  /// проверка отправки данных
   const payload: Payload = {
     name: item.name,
     description: item.description,
     complite: false,
   };
-
-  await openXHR(payload);
-  emit("addItem");
-  clearItem();
+  try {
+    const data = await openXHR(payload);
+    console.log(data);
+    emit("addItem");
+    clearItem();
+    loadStatus.value = 0;
+  } catch (e) {
+    console.log(e);
+  }
 }
 const constructor = ref<any>(null);
 onMounted(() => {
@@ -122,5 +145,17 @@ onMounted(() => {
   z-index: 1000;
   touch-action: none;
   box-sizing: border-box;
+}
+.loading-progress__bar {
+  transition: width 0.4s;
+  background: green;
+  padding: 20px;
+  height: 20px;
+  border-radius: 20px;
+  color: white;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 </style>
