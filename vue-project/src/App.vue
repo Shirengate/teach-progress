@@ -8,7 +8,7 @@
 </template>
 
 <script setup lang="ts">
-import Header from "@/components/Layout/Header.vue";
+import Header from "./components/Layout/Header.vue";
 import { watch, ref } from "vue";
 import { useIntervalFn, type Pausable } from "@vueuse/core";
 import { useToast } from "vue-toast-notification";

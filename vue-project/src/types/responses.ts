@@ -3,6 +3,7 @@ export interface Item {
   name: string;
   description: string;
   complite: boolean;
+  imageUrl?: string | URL;
 }
 
 export type ItemsResponse = Item[];

@@ -9,7 +9,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
+import { onMounted } from "vue";
 import { useStateStore } from "@/stores/state";
 import { useFetchData } from "@/stores/fetchData";
 import PercentageBar from "@/components/HomePage/PercentageBar.vue";
@@ -29,17 +29,6 @@ async function getItems(): Promise<void> {
   }
 }
 
-async function fetchData(): Promise<void> {
-  const url: string =
-    "https://fetch-progress.anthum.com/30kbps/images/sunrise-baseline.jpg";
-  const xhr = new XMLHttpRequest();
-  xhr.onprogress = (event: ProgressEvent): void => {
-    const status: number = Math.floor((event.loaded / event.total) * 100);
-    console.log(status);
-  };
-  xhr.open("GET", url, true);
-  xhr.send();
-}
 onMounted(async () => {
   await getItems();
   // await fetchData();

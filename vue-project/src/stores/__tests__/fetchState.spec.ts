@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach,vi } from "vitest";
+import { describe, it, expect, beforeEach } from "vitest";
 import { setActivePinia, createPinia } from "pinia";
 import { useStateStore } from "@/stores/state";
 describe("проверка стора состояний", async () => {

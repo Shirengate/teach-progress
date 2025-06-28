@@ -4,7 +4,7 @@
       'item relative min-h-[100px] flex items-center justify-center',
       item.complite ? 'complite' : '',
     ]"
-    :style="{ backgroundImage: `url(${item.imageUrl})` }"
+    :style="{ backgroundImage: `url(${item.imageUrl || ''})` }"
     @click="goToTask(item.id)"
   >
     <span class="item__text">{{ item.name }}</span>
