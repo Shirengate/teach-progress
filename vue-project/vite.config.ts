@@ -21,6 +21,31 @@ export default defineConfig({
         globPatterns: ["**/*.{js,css,html,ico,png,svg}"],
         cleanupOutdatedCaches: true,
       },
+      manifest: {
+        theme_color: "#edebef",
+        background_color: "#c7c7c7",
+        icons: [
+          {
+            purpose: "maskable",
+            sizes: "512x512",
+            src: "/icon512_maskable.png",
+            type: "image/png",
+          },
+          {
+            purpose: "any",
+            sizes: "512x512",
+            src: "/icon512_rounded.png",
+            type: "image/png",
+          },
+        ],
+        orientation: "any",
+        display: "standalone",
+        lang: "ru",
+        name: "Teach Progress",
+        short_name: "TP",
+        start_url: "/",
+        description: "My app for tacking your progress ",
+      },
     }),
   ],
   resolve: {
