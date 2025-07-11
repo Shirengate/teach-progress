@@ -1,5 +1,5 @@
 <template>
-  <div
+    <div
     :class="[
       'item relative min-h-[100px] flex items-center justify-center',
       item.complite ? 'complite' : '',
@@ -72,6 +72,7 @@ async function updateStatus(payload: UpdateStatus): Promise<void> {
   }
 }
 .complite {
-  background: rgb(6, 232, 6);
+  background-color: rgb(6, 232, 6);
+
 }
 </style>
