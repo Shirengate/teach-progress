@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import { ref, type Ref, computed } from "vue";
-import { type Item } from "@/types/responses";
+import type { Item } from "@/types/responses";
 export const useStateStore = defineStore("state", () => {
   const items: Ref<Item[]> = ref([]);
   const percentage = computed<number>(() => {

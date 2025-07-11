@@ -75,7 +75,6 @@ import { reactive, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useFetchData } from "@/stores/fetchData";
 import type { UpdateStatus } from "@/types/emits";
-import { log } from "console";
 const fetchData = useFetchData();
 const { patchData } = fetchData;
 const route = useRoute();
